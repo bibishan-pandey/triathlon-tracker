@@ -1,11 +1,20 @@
 import React, {Component} from 'react';
-import {View} from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 
 import Slider from "./Slider";
 import Stepper from "./Stepper";
-
-import {getMetricMetaInfo} from "../utils/helpers";
 import DateHeader from "./DateHeader";
+
+import {getMetricMetaInfo, timeToString} from "../utils/helpers";
+
+
+const SubmitButton = ({onPress}) => {
+  return (
+    <TouchableOpacity style={styles.btn} onPress={onPress}>
+      <Text style={styles.btnText}>Add Entries</Text>
+    </TouchableOpacity>
+  );
+};
 
 
 export default class AddEntry extends Component {
@@ -48,6 +57,25 @@ export default class AddEntry extends Component {
     });
   };
 
+  submit = () => {
+    const key = timeToString();
+    const entry = this.state;
+
+    // TODO: update redux
+
+    this.setState({
+      run: 0,
+      bike: 0,
+      swim: 0,
+      sleep: 0,
+      eat: 0,
+    });
+
+    // TODO: navigate to home
+    // TODO: save to db
+    // TODO: clear local notification
+  };
+
   render() {
     const metaInfo = getMetricMetaInfo();
     return (
@@ -71,7 +99,24 @@ export default class AddEntry extends Component {
             </View>
           );
         })}
+
+        <SubmitButton onPress={this.submit}/>
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  btn: {
+    backgroundColor: '#e53224',
+    padding: 10,
+    paddingLeft: 50,
+    paddingRight: 50,
+    borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  btnText: {
+    color: '#fff',
+  },
+});
