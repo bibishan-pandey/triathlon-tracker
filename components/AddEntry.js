@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 
-import Slider from "./Slider";
+import TTSlider from "./TTSlider";
 import Stepper from "./Stepper";
 import DateHeader from "./DateHeader";
 
@@ -89,7 +89,7 @@ export default class AddEntry extends Component {
             <View key={key}>
               {getIcon()}
               {type === 'slider'
-                ? <Slider value={value}
+                ? <TTSlider value={value}
                           onChange={(value) => this.slide(key, value)}
                           {...rest}/>
                 : <Stepper value={value}
