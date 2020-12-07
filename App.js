@@ -4,9 +4,15 @@ import {
     Text,
     View,
 } from 'react-native';
+import {createStore} from "redux";
+import {Provider} from 'react-redux';
+
+import reducers from './store/reducers';
 
 import AddEntry from "./components/AddEntry";
 
+
+const store = createStore(reducers);
 
 export default class App extends Component {
 
@@ -16,25 +22,11 @@ export default class App extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
-                <AddEntry/>
-
-                {/*<TouchableHighlight style={styles.btn} onPress={this.handlePress} underlayColor={'#d4271b'}>*/}
-                {/*  <Text style={styles.btnText}>Touchable</Text>*/}
-                {/*</TouchableHighlight>*/}
-
-                {/*<TouchableOpacity style={styles.btn} onPress={this.handlePress}>*/}
-                {/*  <Text style={styles.btnText}>Touchable</Text>*/}
-                {/*</TouchableOpacity>*/}
-
-                {/*<TouchableWithoutFeedback onPress={this.handlePress}>*/}
-                {/*  <View style={styles.btn}><Text style={styles.btnText}>Touchable</Text></View>*/}
-                {/*</TouchableWithoutFeedback>*/}
-
-                {/*<TouchableNativeFeedback background={TouchableNativeFeedback.SelectableBackground()} onPress={this.handlePress}>*/}
-                {/*  <View style={styles.btn}><Text style={styles.btnText}>Touchable</Text></View>*/}
-                {/*</TouchableNativeFeedback>*/}
-            </View>
+            <Provider store={store}>
+                <View style={styles.container}>
+                    <AddEntry/>
+                </View>
+            </Provider>
         );
     }
 }
