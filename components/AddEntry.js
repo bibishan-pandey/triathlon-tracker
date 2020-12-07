@@ -8,6 +8,7 @@ import TTSlider from "./TTSlider";
 import TTStepper from "./TTStepper";
 import DateHeader from "./DateHeader";
 import TextButton from "./TextButton";
+import {resetEntry, submitEntry} from "../utils/api";
 
 
 const SubmitButton = ({onPress}) => {
@@ -75,6 +76,7 @@ export default class AddEntry extends Component {
 
         // TODO: navigate to home
         // TODO: save to db
+        submitEntry({entry, key});
         // TODO: clear local notification
     };
 
@@ -85,6 +87,7 @@ export default class AddEntry extends Component {
 
         // TODO: navigate to home
         // TODO: update db
+        resetEntry(key);
     };
 
     render() {
