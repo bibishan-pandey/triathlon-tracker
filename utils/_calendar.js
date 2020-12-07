@@ -18,13 +18,13 @@ function setDummyData() {
     const strTime = timeToString(time);
     dummyData[strTime] =
       getRandomNumber(3) % 2 === 0
-        ? {
+        ? [{
             run: getRandomNumber(run.max),
             bike: getRandomNumber(bike.max),
             swim: getRandomNumber(swim.max),
             sleep: getRandomNumber(sleep.max),
             eat: getRandomNumber(eat.max),
-          }
+          }]
         : null;
   }
 
@@ -42,7 +42,7 @@ function setMissingDates(dates) {
     const strTime = timeToString(time);
 
     if (typeof dates[strTime] === 'undefined') {
-      dates[strTime] = null;
+      dates[strTime] = [];
     }
   }
 
@@ -50,7 +50,7 @@ function setMissingDates(dates) {
 }
 
 export function formatCalendarResults(results) {
-  return results === null
+  return results === []
     ? setDummyData()
     : setMissingDates(JSON.parse(results));
 }
