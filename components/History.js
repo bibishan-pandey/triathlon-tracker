@@ -4,6 +4,7 @@ import {View, Text} from "react-native";
 import {fetchCalendarResults} from "../utils/api";
 import {addEntry, receiveEntries} from "../store/actions/actionCreators";
 import {getDailyReminderValue, timeToString} from "../utils/helpers";
+import {Agenda as UdaciFitnessCalendar } from 'react-native-calendars'
 
 
 class History extends Component {
@@ -20,11 +21,31 @@ class History extends Component {
             });
     }
 
-    render() {
+    renderItem = ({today, ...metrics}, formattedDate, key) => (
+        <View>
+            {today
+                ? <Text>{JSON.stringify(today)}</Text>
+                : <Text>{JSON.stringify(metrics)}</Text>}
+        </View>
+    );
+
+    renderEmptyDate = (formattedDate) => {
         return (
             <View>
-                <Text>{JSON.stringify(this.props)}</Text>
+                <Text>No data for this day</Text>
             </View>
+        );
+    };
+
+    render() {
+        const {entries} = this.props;
+        return (
+            // <View>
+                <UdaciFitnessCalendar
+                    items={entries}
+                    renderItem={this.renderItem}
+                    renderEmptyDate={this.renderEmptyDate}/>
+            // </View>
         );
     }
 }
