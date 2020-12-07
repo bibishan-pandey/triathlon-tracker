@@ -1,14 +1,16 @@
 import React, {Component} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {Ionicons} from "@expo/vector-icons";
+import {connect} from 'react-redux';
 
-import {getMetricMetaInfo, timeToString} from "../utils/helpers";
+import {getDailyReminderValue, getMetricMetaInfo, timeToString} from "../utils/helpers";
 
 import TTSlider from "./TTSlider";
 import TTStepper from "./TTStepper";
 import DateHeader from "./DateHeader";
 import TextButton from "./TextButton";
 import {resetEntry, submitEntry} from "../utils/api";
+import {addEntry} from "../store/actions/actionCreators";
 
 
 const SubmitButton = ({onPress}) => {
@@ -20,7 +22,7 @@ const SubmitButton = ({onPress}) => {
 };
 
 
-export default class AddEntry extends Component {
+class AddEntry extends Component {
 
     state = {
         run: 0,
@@ -64,7 +66,10 @@ export default class AddEntry extends Component {
         const key = timeToString();
         const entry = this.state;
 
-        // TODO: update redux
+        // update redux
+        this.props.dispatch(addEntry({
+            [key]: entry,
+        }));
 
         this.setState({
             run: 0,
@@ -75,18 +80,24 @@ export default class AddEntry extends Component {
         });
 
         // TODO: navigate to home
-        // TODO: save to db
+
+        // save to db (AsyncStorage)
         submitEntry({entry, key});
+
         // TODO: clear local notification
     };
 
     reset = () => {
         const key = timeToString();
 
-        // TODO: update redux
+        // update redux
+        this.props.dispatch(addEntry({
+            [key]: getDailyReminderValue(),
+        }))
 
         // TODO: navigate to home
-        // TODO: update db
+
+        // update db (AsyncStorage)
         resetEntry(key);
     };
 
@@ -130,6 +141,17 @@ export default class AddEntry extends Component {
         );
     }
 }
+
+function mapStateToProps(state) {
+    const key = timeToString();
+    return {
+        alreadyLogged: state[key] && typeof state[key].today === 'undefined'
+    };
+
+}
+
+export default connect(mapStateToProps)(AddEntry);
+
 
 const styles = StyleSheet.create({
     btn: {
