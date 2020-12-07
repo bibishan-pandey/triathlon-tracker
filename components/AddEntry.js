@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, Text, TouchableOpacity, Platform, StyleSheet} from 'react-native';
 import {Ionicons} from "@expo/vector-icons";
 import {connect} from 'react-redux';
 
@@ -11,12 +11,15 @@ import DateHeader from "./DateHeader";
 import TextButton from "./TextButton";
 import {resetEntry, submitEntry} from "../utils/api";
 import {addEntry} from "../store/actions/actionCreators";
+import {gray, purple, white} from "../utils/colors";
 
 
 const SubmitButton = ({onPress}) => {
     return (
-        <TouchableOpacity style={styles.btn} onPress={onPress}>
-            <Text style={styles.btnText}>Add Entries</Text>
+        <TouchableOpacity
+            style={Platform.OS === 'ios' ? styles.iosSubmitButton : styles.androidSubmitButton}
+            onPress={onPress}>
+            <Text style={styles.submitButtonText}>Add Entries</Text>
         </TouchableOpacity>
     );
 };
@@ -106,23 +109,25 @@ class AddEntry extends Component {
 
         if (this.props.alreadyLogged) {
             return (
-                <View>
-                    <Ionicons name={"ios-happy"} size={100} color={"black"}/>
+                <View style={styles.center}>
+                    <Ionicons name={Platform.OS === 'ios' ? 'ios-happy' : 'md-happy'}
+                              size={100}
+                              color={"black"}/>
                     <Text>You already logged your information for today.</Text>
-                    <TextButton onPress={this.reset}>Reset</TextButton>
+                    <TextButton style={{padding: 10}} onPress={this.reset}>Reset</TextButton>
                 </View>
             );
         }
 
         return (
-            <View>
+            <View style={styles.container}>
                 <DateHeader date={(new Date()).toLocaleDateString()}/>
 
                 {Object.keys(metaInfo).map((key) => {
                     const {getIcon, type, ...rest} = metaInfo[key];
                     const value = this.state[key];
                     return (
-                        <View key={key}>
+                        <View key={key} style={styles.row}>
                             {getIcon()}
                             {type === 'slider'
                                 ? <TTSlider value={value}
@@ -154,18 +159,45 @@ export default connect(mapStateToProps)(AddEntry);
 
 
 const styles = StyleSheet.create({
-    btn: {
-        backgroundColor: '#e53224',
-        marginTop: 10,
-        marginBottom: 10,
-        padding: 10,
-        paddingLeft: 50,
-        paddingRight: 50,
-        borderRadius: 5,
-        alignItems: 'center',
-        justifyContent: 'center',
+    container: {
+        flex: 1,
+        padding: 20,
+        backgroundColor: white,
     },
-    btnText: {
-        color: '#fff',
+    center: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginLeft: 30,
+        marginRight: 30,
+    },
+    row: {
+        flexDirection: 'row',
+        flex: 1,
+        alignItems: 'center',
+    },
+    iosSubmitButton: {
+        backgroundColor: purple,
+        padding: 10,
+        borderRadius: 7,
+        height: 45,
+        marginRight: 40,
+        marginLeft: 40,
+    },
+    androidSubmitButton: {
+        backgroundColor: purple,
+        padding: 10,
+        paddingLeft: 30,
+        paddingRight: 30,
+        borderRadius: 2,
+        height: 45,
+        alignSelf: 'flex-end',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    submitButtonText: {
+        color: white,
+        fontSize: 22,
+        textAlign: 'center',
     },
 });

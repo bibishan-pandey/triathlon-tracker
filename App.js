@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {
     StyleSheet,
-    Text,
     View,
 } from 'react-native';
 import {createStore} from "redux";
@@ -34,22 +33,7 @@ export default class App extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginLeft: 10,
-        marginRight: 10,
         backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    btn: {
-        backgroundColor: '#e53224',
-        padding: 10,
-        paddingLeft: 50,
-        paddingRight: 50,
-        borderRadius: 5,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    btnText: {
-        color: '#fff',
+        paddingTop: 30,
     },
 });
