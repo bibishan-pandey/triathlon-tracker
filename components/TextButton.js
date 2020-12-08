@@ -3,9 +3,9 @@ import {Text, TouchableOpacity, StyleSheet} from "react-native";
 import {purple} from "../utils/colors";
 
 
-const TextButton = ({children, onPress, style = {}}) => {
+const TextButton = ({children, onPress, btnStyle = {}, style = {}}) => {
     return (
-        <TouchableOpacity onPress={onPress}>
+        <TouchableOpacity onPress={onPress} style={btnStyle}>
             <Text style={[styles.reset, style]}>{children}</Text>
         </TouchableOpacity>
     );
