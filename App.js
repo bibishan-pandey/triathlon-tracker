@@ -9,6 +9,7 @@ import {
     StyleSheet,
     View,
     Platform,
+    StatusBar,
 } from 'react-native';
 import {createStore} from "redux";
 import {Provider} from 'react-redux';
@@ -18,10 +19,19 @@ import reducers from './store/reducers';
 import AddEntry from "./components/AddEntry";
 import History from "./components/History";
 import {gray, purple, white} from "./utils/colors";
+import Constants from 'expo-constants'
 
 
 const store = createStore(reducers);
 const Tab = (Platform.OS === 'ios') ? createBottomTabNavigator() : createMaterialTopTabNavigator();
+
+const TriathlonStatusBar = ({backgroundColor, ...props}) => {
+    return (
+        <View style={{backgroundColor, height: Constants.statusBarHeight}}>
+            <StatusBar translucent backgroundColor={backgroundColor} {...props}/>
+        </View>
+    );
+};
 
 export default class App extends Component {
 
@@ -37,6 +47,7 @@ export default class App extends Component {
     render() {
         return (
             <Provider store={store}>
+                <TriathlonStatusBar backgroundColor={purple} barStyle={'light-content'}/>
                 <View style={styles.container}>
                     <NavigationContainer>
                         <Tab.Navigator
@@ -79,6 +90,5 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        paddingTop: 30,
     },
 });
