@@ -6,7 +6,7 @@ import {addEntry, receiveEntries} from "../store/actions/actionCreators";
 import {getDailyReminderValue, timeToString} from "../utils/helpers";
 import {Agenda as UdaciFitnessCalendar} from 'react-native-calendars'
 import {white} from "../utils/colors";
-import DateHeader from "./DateHeader";
+import MetricCard from "./MetricCard";
 
 
 class History extends Component {
@@ -33,7 +33,7 @@ class History extends Component {
                     </Text>
                 </View>
                 : <TouchableOpacity onPress={() => console.log('Pressed')}>
-                    <Text>{JSON.stringify(metrics)}</Text>
+                    <MetricCard metrics={metrics}/>
                 </TouchableOpacity>}
         </View>
     );
