@@ -18,6 +18,7 @@ import { gray, purple, white } from "./utils/colors";
 import AddEntry from "./components/AddEntry";
 import History from "./components/History";
 import EntryDetail from "./components/EntryDetail";
+import Live from "./components/Live";
 
 const store = createStore(reducers);
 const Tab =
@@ -70,6 +71,16 @@ const NavTab = () => (
         tabBarLabel: "Add Entry",
         tabBarIcon: ({ focused, size, color }) => (
           <FontAwesome name="plus-square" size={size} color={color} />
+        ),
+      }}
+    />
+    <Tab.Screen
+      name="Live"
+      component={Live}
+      options={{
+        tabBarLabel: "Live",
+        tabBarIcon: ({ focused, size, color }) => (
+          <Ionicons name="ios-speedometer" size={size} color={color} />
         ),
       }}
     />
