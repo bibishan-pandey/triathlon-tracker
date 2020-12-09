@@ -12,7 +12,7 @@ import { purple, red, white } from "../utils/colors";
 class Live extends Component {
   state = {
     coords: null,
-    status: "undetermined",
+    status: "denied",
     direction: "",
   };
 
@@ -23,8 +23,12 @@ class Live extends Component {
     if (status === null) return <ActivityIndicator style={{ marginTop: 30 }} />;
     if (status === "denied")
       return (
-        <View>
-          <Text>Denied!</Text>
+        <View style={styles.center}>
+          <Foundation name={"alert"} size={50} color={red} />
+          <Text style={{ color: red }}>
+            Location services has been denied. Go to your settings to enable
+            services.
+          </Text>
         </View>
       );
     if (status === "undetermined")
@@ -32,7 +36,7 @@ class Live extends Component {
         <View style={styles.center}>
           <Foundation name={"alert"} size={50} color={red} />
           <Text style={{ color: red }}>
-            Please enable location services for this section
+            Please enable location services for this section.
           </Text>
           <TouchableOpacity onPress={this.askPermission} style={styles.button}>
             <Text style={styles.buttonText}>Enable</Text>
