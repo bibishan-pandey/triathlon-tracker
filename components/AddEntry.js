@@ -21,7 +21,7 @@ import DateHeader from "./DateHeader";
 import TextButton from "./TextButton";
 import { resetEntry, submitEntry } from "../utils/api";
 import { addEntry } from "../store/actions/actionCreators";
-import { gray, purple, white } from "../utils/colors";
+import { purple, white } from "../utils/colors";
 
 const SubmitButton = ({ onPress }) => {
   return (

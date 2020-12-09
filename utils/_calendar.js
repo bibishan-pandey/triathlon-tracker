@@ -1,14 +1,14 @@
-import {AsyncStorage} from 'react-native';
-import {getMetricMetaInfo, timeToString} from './helpers';
+import { AsyncStorage } from "react-native";
+import { getMetricMetaInfo, timeToString } from "./helpers";
 
-export const CALENDAR_STORAGE_KEY = 'TriathlonTracker:calendar';
+export const CALENDAR_STORAGE_KEY = "TriathlonTracker:calendar";
 
 function getRandomNumber(max) {
   return Math.floor(Math.random() * max);
 }
 
 function setDummyData() {
-  const {run, bike, swim, sleep, eat} = getMetricMetaInfo();
+  const { run, bike, swim, sleep, eat } = getMetricMetaInfo();
 
   let dummyData = {};
   const timestamp = Date.now();
@@ -18,13 +18,15 @@ function setDummyData() {
     const strTime = timeToString(time);
     dummyData[strTime] =
       getRandomNumber(3) % 2 === 0
-        ? [{
-            run: getRandomNumber(run.max),
-            bike: getRandomNumber(bike.max),
-            swim: getRandomNumber(swim.max),
-            sleep: getRandomNumber(sleep.max),
-            eat: getRandomNumber(eat.max),
-          }]
+        ? [
+            {
+              run: getRandomNumber(run.max),
+              bike: getRandomNumber(bike.max),
+              swim: getRandomNumber(swim.max),
+              sleep: getRandomNumber(sleep.max),
+              eat: getRandomNumber(eat.max),
+            },
+          ]
         : [];
   }
 
@@ -41,7 +43,7 @@ function setMissingDates(dates) {
     const time = timestamp + i * 24 * 60 * 60 * 1000;
     const strTime = timeToString(time);
 
-    if (typeof dates[strTime] === 'undefined') {
+    if (typeof dates[strTime] === "undefined") {
       dates[strTime] = [];
     }
   }

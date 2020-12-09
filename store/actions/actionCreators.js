@@ -1,16 +1,15 @@
-import {ADD_ENTRY, RECEIVE_ENTRIES} from "./actionTypes";
-
+import { ADD_ENTRY, RECEIVE_ENTRIES } from "./actionTypes";
 
 export function receiveEntries(entries) {
-    return {
-        type: RECEIVE_ENTRIES,
-        entries,
-    };
+  return {
+    type: RECEIVE_ENTRIES,
+    entries,
+  };
 }
 
 export function addEntry(entry) {
-    return {
-        type: ADD_ENTRY,
-        entry,
-    };
+  return {
+    type: ADD_ENTRY,
+    entry,
+  };
 }
