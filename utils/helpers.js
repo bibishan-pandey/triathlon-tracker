@@ -1,19 +1,16 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, AsyncStorage } from "react-native";
+import * as Notifications from "expo-notifications";
+import * as Permissions from "expo-permissions";
 import {
   FontAwesome,
   MaterialIcons,
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
 
-import {
-  white,
-  blue,
-  lightPurple,
-  orange,
-  pink,
-  red,
-} from "./colors";
+import { white, blue, lightPurple, orange, pink, red } from "./colors";
+
+const NOTIFICATION_KEY = "Triathlon Tracker: notifications";
 
 export function isBetween(num, x, y) {
   return num >= x && num <= y;
@@ -149,7 +146,52 @@ export function getMetricMetaInfo(metric) {
 export function getDailyReminderValue() {
   return [
     {
-      today: "👋🏻 Don't forget to log your data today",
+      today: "👋🏻 Don't forget to log your data today!",
     },
   ];
+}
+
+export function clearLocalNotification() {
+  AsyncStorage.removeItem(NOTIFICATION_KEY).then(
+    Notifications.cancelAllScheduledNotificationsAsync
+  );
+}
+
+function createNotification() {
+  return {
+    title: "Log your stats!",
+    body: "👋🏻 don't forget to log your stats today!",
+    ios: {
+      sound: true,
+    },
+    android: {
+      sound: true,
+      vibrate: true,
+      sticky: false,
+      priority: "high",
+    },
+  };
+}
+
+export function setLocalNotification() {
+  AsyncStorage.getItem(NOTIFICATION_KEY)
+    .then(JSON.parse)
+    .then((data) => {
+      if (data === null) {
+        Permissions.askAsync(Permissions.NOTIFICATIONS).then(({ status }) => {
+          if (status === "granted") {
+            Notifications.cancelAllScheduledNotificationsAsync();
+            let trigger = new Date();
+            trigger.setDate(trigger.getDate() + 1);
+            trigger.setHours(20);
+            trigger.setMinutes(0);
+            Notifications.scheduleNotificationAsync({
+              content: createNotification(),
+              trigger,
+            });
+            AsyncStorage.setItem(NOTIFICATION_KEY, JSON.stringify(true));
+          }
+        });
+      }
+    });
 }

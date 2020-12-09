@@ -13,12 +13,13 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 
 import reducers from "./store/reducers";
-import { gray, purple, white } from "./utils/colors";
+import { purple, white } from "./utils/colors";
 
 import AddEntry from "./components/AddEntry";
 import History from "./components/History";
 import EntryDetail from "./components/EntryDetail";
 import Live from "./components/Live";
+import { setLocalNotification } from "./utils/helpers";
 
 const store = createStore(reducers);
 const Tab =
@@ -113,6 +114,10 @@ const NavStack = () => (
 );
 
 export default class App extends Component {
+  componentDidMount() {
+    setLocalNotification();
+  }
+
   handlePress = () => {
     alert("Button Clicked");
   };
